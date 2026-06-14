@@ -1,9 +1,10 @@
 'use client';
 
-import { TextInput, Button, Group, Box, Checkbox, Stack, Select, Loader } from '@mantine/core';
+import { TextInput, Button, Group, Box, Checkbox, Stack, Loader } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useCreateProvider } from './api';
 import { useGroups } from '@/src/entities/group';
+import { CustomSelect } from '@/src/shared/ui';
 
 export function CreateProviderForm({ onSuccess }: { onSuccess?: () => void }) {
     const { mutate, isPending } = useCreateProvider();
@@ -54,12 +55,14 @@ export function CreateProviderForm({ onSuccess }: { onSuccess?: () => void }) {
                     {groupsLoading ? (
                         <Loader size="sm" />
                     ) : (
-                        <Select
+                        <CustomSelect
                             label="Subscription Group"
-                            placeholder="Select a group (optional)"
+                            placeholder="Select a group"
                             data={groupOptions}
                             clearable
-                            {...form.getInputProps('group_id')}
+                            value={form.values.group_id}
+                            onChange={(val) => form.setFieldValue('group_id', val)}
+                            error={form.errors.group_id}
                         />
                     )}
 
@@ -69,7 +72,21 @@ export function CreateProviderForm({ onSuccess }: { onSuccess?: () => void }) {
                     />
 
                     <Group justify="flex-end" mt="md">
-                        <Button type="submit" loading={isPending}>Add Provider</Button>
+                        <Button 
+                            type="submit" 
+                            loading={isPending}
+                            fullWidth
+                            style={{ maxWidth: 'fit-content' }}
+                            styles={{
+                                root: {
+                                    '@media (max-width: 48em)': {
+                                        maxWidth: '100%',
+                                    }
+                                }
+                            } as any}
+                        >
+                            Add Provider
+                        </Button>
                     </Group>
                 </Stack>
             </form>

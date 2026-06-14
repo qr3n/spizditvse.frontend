@@ -1,4 +1,4 @@
-import { Card, Text, Badge, Group, Progress } from '@mantine/core';
+import { Card, Text, Badge, Group, Progress, Box, Stack } from '@mantine/core';
 import { Provider } from '../types';
 
 interface ProviderCardProps {
@@ -7,40 +7,51 @@ interface ProviderCardProps {
 }
 
 export function ProviderCard({ provider, actions }: ProviderCardProps) {
-    const percentUsed = provider.traffic_total_gb > 0
-        ? (provider.traffic_used_gb / provider.traffic_total_gb) * 100
-        : 0;
-
+    const trafficUsed = provider.traffic_used_gb ?? 0;
+    const trafficTotal = provider.traffic_total_gb ?? 0;
+    const percentUsed = trafficTotal > 0 ? (trafficUsed / trafficTotal) * 100 : 0;
     const progressColor = percentUsed > 90 ? 'red' : percentUsed > 75 ? 'yellow' : 'blue';
 
     return (
-        <Card p="xl">
-            <Group justify="space-between" mb="xs">
-                <Text fw={600} size="lg">{provider.alias}</Text>
-                <Group gap="xs">
-                    <Badge color={provider.is_active ? 'green' : 'gray'}>
-                        {provider.is_active ? 'Active' : 'Inactive'}
+        <Card p="lg">
+            <Group justify="space-between" mb="md" align="flex-start" wrap="nowrap">
+                <Box style={{ minWidth: 0 }}>
+                    <Text fw={500} size="sm" truncate>{provider.alias}</Text>
+                    <Text size="12px" c="dimmed" mt={2} truncate style={{ maxWidth: 200 }}>
+                        {provider.url}
+                    </Text>
+                </Box>
+                <Group gap={4} style={{ flexShrink: 0 }}>
+                    <Badge
+                        color={provider.is_active ? 'teal' : 'gray'}
+                        variant="light"
+                        size="sm"
+                    >
+                        {provider.is_active ? 'Online' : 'Offline'}
                     </Badge>
-                    {actions}
                 </Group>
             </Group>
 
-            <Text size="sm" c="dimmed" mb="md" lineClamp={1}>
-                {provider.url}
-            </Text>
+            <Stack gap="xs">
+                <Box>
+                    <Group justify="space-between" mb={6}>
+                        <Text size="11px" fw={500} c="dimmed" tt="uppercase" style={{ letterSpacing: '0.5px' }}>Traffic</Text>
+                        <Text size="12px" fw={500} c={percentUsed > 90 ? 'red' : undefined}>
+                            {trafficUsed.toFixed(1)} / {trafficTotal.toFixed(0)} GB
+                        </Text>
+                    </Group>
+                    <Progress value={percentUsed} color={progressColor} radius="xl" size="sm" />
+                </Box>
 
-            <Group justify="space-between" mb="xs">
-                <Text size="xs" c="dimmed" fw={500}>Traffic Usage</Text>
-                <Text size="xs" fw={600} c={progressColor}>
-                    {provider.traffic_used_gb.toFixed(2)} / {provider.traffic_total_gb.toFixed(2)} GB
-                </Text>
-            </Group>
-            <Progress value={percentUsed} color={progressColor} radius="xl" size="md" mb="md" />
-
-            <Group justify="space-between">
-                <Text size="xs" c="dimmed" fw={500}>Nodes Active</Text>
-                <Badge variant="outline" color="gray">{provider.outbound_count}</Badge>
-            </Group>
+                <Group justify="space-between" align="center" mt={4}>
+                    <Text size="12px" c="dimmed">
+                        <Text span fw={500}>{provider.outbound_count}</Text> nodes
+                    </Text>
+                    <Group gap={4}>
+                        {actions}
+                    </Group>
+                </Group>
+            </Stack>
         </Card>
     );
 }

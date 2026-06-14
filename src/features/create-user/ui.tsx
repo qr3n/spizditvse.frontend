@@ -44,7 +44,21 @@ export function CreateUserForm({ onSuccess }: { onSuccess?: () => void }) {
                     />
 
                     <Group justify="flex-end" mt="md">
-                        <Button type="submit" loading={isPending}>Create User</Button>
+                        <Button 
+                            type="submit" 
+                            loading={isPending}
+                            fullWidth
+                            style={{ maxWidth: 'fit-content' }}
+                            styles={{
+                                root: {
+                                    '@media (max-width: 48em)': {
+                                        maxWidth: '100%',
+                                    }
+                                }
+                            } as any}
+                        >
+                            Create User
+                        </Button>
                     </Group>
                 </Stack>
             </form>

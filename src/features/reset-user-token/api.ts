@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/src/shared/api';
 import { USER_QUERY_KEY } from '@/src/entities/user';
+import toast from 'react-hot-toast';
 
 export const useResetUserToken = () => {
     const queryClient = useQueryClient();
@@ -12,6 +13,10 @@ export const useResetUserToken = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: USER_QUERY_KEY });
+            toast.success('User token reset successfully');
+        },
+        onError: () => {
+            toast.error('Failed to reset user token');
         },
     });
 };

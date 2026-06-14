@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/src/shared/api';
 import { RULE_QUERY_KEY, FilterRuleUpdate, FilterRule } from '@/src/entities/rule';
+import toast from 'react-hot-toast';
 
 export const useUpdateRule = () => {
     const queryClient = useQueryClient();
@@ -12,6 +13,10 @@ export const useUpdateRule = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: RULE_QUERY_KEY });
+            toast.success('Rule updated successfully');
+        },
+        onError: () => {
+            toast.error('Failed to update rule');
         },
     });
 };

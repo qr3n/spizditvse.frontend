@@ -8,14 +8,16 @@ export function ResetTokenButton({ userId }: { userId: string }) {
     const { mutate, isPending } = useResetUserToken();
 
     return (
-        <Tooltip label="Reset Token" withArrow position="top">
-            <ActionIcon 
-                color="red" 
-                variant="light" 
+        <Tooltip label="Reset token" withArrow position="top">
+            <ActionIcon
+                color="gray"
+                variant="subtle"
+                size="sm"
+                radius="md"
                 onClick={() => mutate(userId)}
                 loading={isPending}
             >
-                <IconRefresh size={16} />
+                <IconRefresh size={14} stroke={1.5} />
             </ActionIcon>
         </Tooltip>
     );

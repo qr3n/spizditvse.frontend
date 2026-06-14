@@ -1,59 +1,89 @@
-import { createTheme } from '@mantine/core';
+import { createTheme, rem } from '@mantine/core';
 
 export const theme = createTheme({
-  primaryColor: 'dark',
-  fontFamily: '"Google Sans", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  primaryColor: 'brand',
+  fontFamily: '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   headings: {
-    fontFamily: '"Google Sans", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    fontWeight: '500',
+    fontFamily: '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    fontWeight: '600',
   },
   defaultRadius: 'md',
   colors: {
-    gray: [
-      '#f0f4f9', // 0: Body background
-      '#e8eaed', // 1: Card background
-      '#dadce0', // 2: Borders
-      '#bdc1c6', // 3: Disabled
-      '#9aa0a6', // 4
-      '#80868b', // 5: Muted text
-      '#5f6368', // 6: Secondary text
-      '#3c4043', // 7: Main text
-      '#202124', // 8: Headings
-      '#1f1f1f', // 9
+    brand: [
+      '#eef2ff',
+      '#e0e7ff',
+      '#c7d2fe',
+      '#a5b4fc',
+      '#818cf8',
+      '#6366f1',
+      '#4f46e5',
+      '#4338ca',
+      '#3730a3',
+      '#312e81',
+    ],
+    red: [
+      '#fff5f5',
+      '#ffe3e3',
+      '#ffc9c9',
+      '#ffa8a8',
+      '#ff8787',
+      '#ff6b6b',
+      '#fa5252',
+      '#f03e3e',
+      '#e03131',
+      '#c92a2a',
     ],
     dark: [
-      '#e3e3e3', // 0: Title text
-      '#c4c7c5', // 1: Main text
-      '#8e918f', // 2: Muted text
-      '#444746', // 3: Disabled
-      '#3c3e40', // 4: Active Sidebar Background (Medium Gray)
-      '#2d2f31', // 5: Hover Background (Darker Gray)
-      '#1e1e20', // 6: Card Background
-      '#131314', // 7: Body background
-      '#000000', // 8
-      '#000000', // 9
+      '#ffffff',
+      '#e3e3e3',
+      '#b4b7b5',
+      '#8e918f',
+      '#2d2f31',
+      '#25262b',
+      '#1a1b1e',
+      '#0b0b0c',
+      '#000000',
+      '#000000',
     ],
   },
   shadows: {
-    xs: '0 1px 3px rgba(0,0,0,0.05)',
-    sm: '0 4px 12px rgba(0,0,0,0.05)',
-    md: '0 12px 24px -4px rgba(0,0,0,0.05)',
-    lg: '0 24px 48px -8px rgba(0,0,0,0.05)',
-    xl: '0 32px 64px -12px rgba(0,0,0,0.05)',
+    xs: '0 1px 3px rgba(0,0,0,0.3)',
+    sm: '0 4px 12px rgba(0,0,0,0.4)',
+    md: '0 12px 24px -4px rgba(0,0,0,0.5)',
+    lg: '0 24px 48px -8px rgba(0,0,0,0.6)',
+    xl: '0 32px 64px -12px rgba(0,0,0,0.7)',
   },
   components: {
+    Title: {
+      styles: {
+        root: {
+          color: 'var(--mantine-color-white)',
+        }
+      }
+    },
+    Text: {
+      styles: {
+        root: {
+          color: 'var(--mantine-color-dark-1)',
+          '&[data-dimmed]': {
+             color: 'var(--mantine-color-dark-2)',
+          }
+        }
+      }
+    },
     Card: {
       defaultProps: {
         shadow: 'sm',
-        radius: 'md',
+        radius: 'lg',
         withBorder: false,
       },
       styles: {
         root: {
-          overflow: 'hidden',
-          transition: 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+          backgroundColor: 'var(--mantine-color-dark-6)',
+          border: 'none',
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
           '&:hover': {
-            transform: 'translateY(-1px)',
+            transform: 'translateY(-2px)',
             boxShadow: 'var(--mantine-shadow-md)',
           }
         }
@@ -62,27 +92,43 @@ export const theme = createTheme({
     Button: {
       defaultProps: {
         radius: 'xl',
-        fw: 500,
+        fw: 700,
+        color: 'brand.5',
       },
       styles: {
         root: {
-          transition: 'transform 0.15s ease, background-color 0.15s ease',
+          color: '#ffffff !important',
+          border: 'none',
+          backgroundColor: 'var(--mantine-color-brand-5) !important',
+          textShadow: '0 1px 2px rgba(0,0,0,0.2)',
+          transition: 'all 0.15s ease',
+          '&:hover': {
+             backgroundColor: 'var(--mantine-color-brand-4) !important',
+             transform: 'translateY(-1px)',
+             boxShadow: '0 4px 12px rgba(99, 102, 241, 0.4)',
+          },
           '&:active': {
-            transform: 'scale(0.97)',
+            transform: 'scale(0.96)',
           }
         }
       }
     },
-    Badge: {
+    ActionIcon: {
       defaultProps: {
-        variant: 'light',
-        radius: 'md',
-        fw: 600,
+        radius: 'md', // Modern squared look
+        size: 36, // Standard medium size
+        variant: 'subtle',
+        color: 'gray',
       },
       styles: {
         root: {
-          textTransform: 'none',
-          padding: '4px 10px',
+          transition: 'transform 0.1s ease, background-color 0.1s ease',
+          '&:hover': {
+             backgroundColor: 'var(--mantine-color-dark-5)',
+          },
+          '&:active': {
+            transform: 'scale(0.92)',
+          }
         }
       }
     },
@@ -90,22 +136,28 @@ export const theme = createTheme({
       styles: {
         table: {
           borderCollapse: 'collapse',
+          backgroundColor: 'transparent',
+          color: 'var(--mantine-color-dark-1)',
         },
         th: {
-          borderBottom: '1px solid var(--mantine-color-default-border)',
-          color: 'var(--mantine-color-gray-6)',
-          fontSize: '12px',
+          borderBottom: 'none',
+          color: 'var(--mantine-color-dark-2)',
+          fontSize: '11px',
           textTransform: 'uppercase',
-          letterSpacing: '0.5px',
+          letterSpacing: '1px',
           fontWeight: 700,
           padding: '16px',
         },
         td: {
-          borderBottom: '1px solid var(--mantine-color-default-border)',
+          borderBottom: '1px solid var(--mantine-color-dark-4)',
           padding: '16px',
+          color: 'inherit',
         },
         tr: {
           transition: 'background-color 0.15s ease',
+          '&:hover': {
+             backgroundColor: 'var(--mantine-color-dark-5)',
+          }
         }
       }
     },
@@ -115,27 +167,102 @@ export const theme = createTheme({
           borderRadius: 'var(--mantine-radius-xl)',
           marginBottom: '4px',
           transition: 'all 0.15s ease',
-          padding: '10px 16px',
+          padding: '12px 16px',
+          color: 'var(--mantine-color-dark-1)',
           '&:hover': {
              backgroundColor: 'var(--mantine-color-dark-5)',
           },
           '&[data-active]': {
+             backgroundColor: 'var(--mantine-color-dark-5)',
+             color: '#ffffff',
+          },
+          '&[data-active]:hover': {
              backgroundColor: 'var(--mantine-color-dark-4)',
-             color: 'var(--mantine-color-white)',
           }
         },
         label: {
-          fontWeight: 500,
+          fontWeight: 600,
           fontSize: '14px',
         },
-        icon: {
-          marginRight: '12px',
+        section: {
+           color: 'inherit',
+        }
+      }
+    },
+    TextInput: {
+      defaultProps: {
+        radius: 'md',
+        size: 'md',
+      },
+      styles: {
+        input: {
+          backgroundColor: 'var(--mantine-color-dark-5)',
+          border: 'none',
+          color: '#ffffff',
+          '&:focus': {
+            backgroundColor: 'var(--mantine-color-dark-4)',
+          },
+          '&[data-error]': {
+             backgroundColor: 'rgba(255, 107, 107, 0.1) !important',
+             border: '1px solid #ff6b6b !important',
+          }
+        },
+        label: {
+          marginBottom: '8px',
+          fontWeight: 500,
+          fontSize: '13px',
+          color: 'var(--mantine-color-dark-1)',
+        },
+        error: {
+           color: '#ff8787',
+           fontSize: '12px',
+           marginTop: '6px',
+           fontWeight: 500,
+        }
+      }
+    },
+    Select: {
+      defaultProps: {
+        radius: 'md',
+        size: 'md',
+      },
+      styles: {
+        input: {
+          backgroundColor: 'var(--mantine-color-dark-5)',
+          border: 'none',
+          color: '#ffffff',
+          '&:focus': {
+            backgroundColor: 'var(--mantine-color-dark-4)',
+          },
+          '&[data-error]': {
+             backgroundColor: 'rgba(255, 107, 107, 0.1) !important',
+             border: '1px solid #ff6b6b !important',
+          }
+        },
+        label: {
+          marginBottom: '8px',
+          fontWeight: 500,
+          fontSize: '13px',
+          color: 'var(--mantine-color-dark-1)',
+        },
+        error: {
+           color: '#ff8787',
+           fontSize: '12px',
+           marginTop: '6px',
+           fontWeight: 500,
         }
       }
     },
     Paper: {
        defaultProps: {
-          radius: 'md',
+          radius: 'lg',
+          bg: 'dark.6',
+          withBorder: false,
+       },
+       styles: {
+          root: {
+             border: 'none !important',
+          }
        }
     }
   },

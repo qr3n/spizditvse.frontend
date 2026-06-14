@@ -11,12 +11,12 @@ export function EditProviderButton({ provider }: { provider: Provider }) {
 
     return (
         <>
-            <Tooltip label="Edit Provider" withArrow position="top">
-                <ActionIcon color="blue" variant="light" onClick={open}>
-                    <IconEdit size={16} />
+            <Tooltip label="Edit settings" withArrow position="top">
+                <ActionIcon onClick={open}>
+                    <IconEdit size={18} stroke={1.5} />
                 </ActionIcon>
             </Tooltip>
-            {opened && <EditProviderModal provider={provider} opened={opened} onClose={close} />}
+            <EditProviderModal provider={provider} opened={opened} onClose={close} />
         </>
     );
 }

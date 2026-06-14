@@ -1,8 +1,9 @@
 'use client';
 
-import { TextInput, Button, Group, Box, Checkbox, Stack, Select } from '@mantine/core';
+import { TextInput, Button, Group, Box, Checkbox, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useCreateRule } from '../api';
+import { CustomSelect } from '@/src/shared/ui';
 
 export function CreateRuleForm({ onSuccess }: { onSuccess?: () => void }) {
     const { mutate, isPending } = useCreateRule();
@@ -46,13 +47,15 @@ export function CreateRuleForm({ onSuccess }: { onSuccess?: () => void }) {
                         {...form.getInputProps('description')}
                     />
 
-                    <Select
+                    <CustomSelect
                         label="Action"
                         data={[
                             { value: 'block', label: 'Block' },
                             { value: 'allow', label: 'Allow' }
                         ]}
-                        {...form.getInputProps('action')}
+                        value={form.values.action}
+                        onChange={(val) => form.setFieldValue('action', val as any)}
+                        error={form.errors.action}
                     />
 
                     <Checkbox
@@ -61,7 +64,21 @@ export function CreateRuleForm({ onSuccess }: { onSuccess?: () => void }) {
                     />
 
                     <Group justify="flex-end" mt="md">
-                        <Button type="submit" loading={isPending}>Create Rule</Button>
+                        <Button 
+                            type="submit" 
+                            loading={isPending}
+                            fullWidth
+                            style={{ maxWidth: 'fit-content' }}
+                            styles={{
+                                root: {
+                                    '@media (max-width: 48em)': {
+                                        maxWidth: '100%',
+                                    }
+                                }
+                            } as any}
+                        >
+                            Create Rule
+                        </Button>
                     </Group>
                 </Stack>
             </form>

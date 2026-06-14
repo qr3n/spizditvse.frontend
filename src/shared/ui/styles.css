@@ -1,0 +1,46 @@
+/* Sidebar & Drawer optimizations */
+.vaul-content button[type="submit"] {
+  width: auto;
+}
+
+@media (max-width: 48em) {
+  .vaul-content button[type="submit"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .vaul-content .mantine-Group-root {
+    width: 100%;
+  }
+}
+
+/* Global Dark Theme Overrides */
+body {
+  background-color: var(--mantine-color-dark-7) !important;
+  color: var(--mantine-color-dark-0);
+}
+
+/* Smooth Scrollbar for Dark Mode */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--mantine-color-dark-7);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mantine-color-dark-4);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mantine-color-dark-3);
+}
+
+/* Force borderless inputs and clean look */
+.mantine-TextInput-input, .mantine-Select-input, .mantine-PasswordInput-input {
+  border: none !important;
+  box-shadow: none !important;
+}

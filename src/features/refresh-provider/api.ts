@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/src/shared/api';
 import { PROVIDER_QUERY_KEY } from '@/src/entities/provider';
+import toast from 'react-hot-toast';
 
 export const useRefreshProvider = () => {
     const queryClient = useQueryClient();
@@ -12,6 +13,10 @@ export const useRefreshProvider = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: PROVIDER_QUERY_KEY });
+            toast.success('Provider refreshed successfully');
+        },
+        onError: () => {
+            toast.error('Failed to refresh provider');
         },
     });
 };

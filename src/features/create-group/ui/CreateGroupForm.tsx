@@ -37,7 +37,21 @@ export function CreateGroupForm({ onSuccess }: { onSuccess?: () => void }) {
                     />
 
                     <Group justify="flex-end" mt="md">
-                        <Button type="submit" loading={isPending}>Create Group</Button>
+                        <Button 
+                            type="submit" 
+                            loading={isPending} 
+                            fullWidth
+                            style={{ maxWidth: 'fit-content' }}
+                            styles={{
+                                root: {
+                                    '@media (max-width: 48em)': {
+                                        maxWidth: '100%',
+                                    }
+                                }
+                            } as any}
+                        >
+                            Create Group
+                        </Button>
                     </Group>
                 </Stack>
             </form>

@@ -1,11 +1,12 @@
 'use client';
 
-import { TextInput, Button, Group, Box, Stack, Modal, ActionIcon, Tooltip, Select, Checkbox } from '@mantine/core';
+import { TextInput, Button, Group, Box, Stack, ActionIcon, Tooltip, Checkbox } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useUpdateRule } from '../api';
 import { FilterRule } from '@/src/entities/rule';
 import { useDisclosure } from '@mantine/hooks';
 import { IconEdit } from '@tabler/icons-react';
+import { Drawer, CustomSelect } from '@/src/shared/ui';
 
 export function EditRuleButton({ rule }: { rule: FilterRule }) {
     const [opened, { open, close }] = useDisclosure(false);
@@ -24,25 +25,21 @@ export function EditRuleButton({ rule }: { rule: FilterRule }) {
     });
 
     const handleSubmit = (values: typeof form.values) => {
-        mutate({ id: rule.id, data: values }, {
-            onSuccess: () => {
-                close();
-            },
-        });
+        mutate({ id: rule.id, data: values }, { onSuccess: close });
     };
 
     return (
         <>
-            <Tooltip label="Edit Rule" withArrow position="top">
-                <ActionIcon color="blue" variant="light" onClick={open}>
-                    <IconEdit size={16} />
+            <Tooltip label="Edit" withArrow position="top">
+                <ActionIcon color="gray" variant="subtle" size="xl" radius="md" onClick={open}>
+                    <IconEdit size={24} stroke={1.5} />
                 </ActionIcon>
             </Tooltip>
 
-            <Modal opened={opened} onClose={close} title="Edit Rule">
-                <Box mx="auto">
+            <Drawer opened={opened} onClose={close} title="Edit rule">
+                <Box>
                     <form onSubmit={form.onSubmit(handleSubmit)}>
-                        <Stack>
+                        <Stack gap="md">
                             <TextInput
                                 withAsterisk
                                 label="Pattern"
@@ -52,25 +49,42 @@ export function EditRuleButton({ rule }: { rule: FilterRule }) {
                                 label="Description"
                                 {...form.getInputProps('description')}
                             />
-                            <Select
+                            <CustomSelect
                                 label="Action"
                                 data={[
                                     { value: 'block', label: 'Block' },
                                     { value: 'allow', label: 'Allow' }
                                 ]}
-                                {...form.getInputProps('action')}
+                                value={form.values.action}
+                                onChange={(val) => form.setFieldValue('action', val as any)}
+                                error={form.errors.action}
                             />
                             <Checkbox
-                                label="Active Status"
+                                label="Active"
                                 {...form.getInputProps('is_active', { type: 'checkbox' })}
                             />
-                            <Group justify="flex-end" mt="md">
-                                <Button type="submit" loading={isPending}>Save</Button>
+                            <Group justify="flex-end">
+                                <Button 
+                                    type="submit" 
+                                    loading={isPending} 
+                                    size="sm"
+                                    fullWidth
+                                    style={{ maxWidth: 'fit-content' }}
+                                    styles={{
+                                        root: {
+                                            '@media (max-width: 48em)': {
+                                                maxWidth: '100%',
+                                            }
+                                        }
+                                    } as any}
+                                >
+                                    Save
+                                </Button>
                             </Group>
                         </Stack>
                     </form>
                 </Box>
-            </Modal>
+            </Drawer>
         </>
     );
 }

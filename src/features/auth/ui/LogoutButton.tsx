@@ -14,9 +14,15 @@ export function LogoutButton() {
     };
 
     return (
-        <Tooltip label="Logout" withArrow position="left">
-            <ActionIcon onClick={handleLogout} variant="subtle" color="red">
-                <IconLogout size={20} />
+        <Tooltip label="Sign out" withArrow position="left">
+            <ActionIcon
+                onClick={handleLogout}
+                variant="subtle"
+                color="gray"
+                radius="md"
+                size="md"
+            >
+                <IconLogout size={18} stroke={1.5} />
             </ActionIcon>
         </Tooltip>
     );

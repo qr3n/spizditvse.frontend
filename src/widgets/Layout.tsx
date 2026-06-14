@@ -1,75 +1,117 @@
 'use client';
 
-import { AppShell, Burger, Group, NavLink, Text } from '@mantine/core';
+import { AppShell, Burger, Group, NavLink, Text, Box } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LogoutButton } from '@/src/features/auth';
-import { PageTransition } from '@/src/shared/ui';
-import { 
-    IconLayoutDashboard, 
-    IconServer, 
-    IconUsers, 
-    IconFolder, 
-    IconFilter 
+import {
+    IconLayoutDashboard,
+    IconServer,
+    IconUsers,
+    IconFolder,
+    IconFilter,
+    IconShield
 } from '@tabler/icons-react';
+
+const links = [
+    { label: 'Dashboard', href: '/', icon: IconLayoutDashboard },
+    { label: 'Providers', href: '/providers', icon: IconServer },
+    { label: 'Users', href: '/users', icon: IconUsers },
+    { label: 'Groups', href: '/groups', icon: IconFolder },
+    { label: 'Rules', href: '/rules', icon: IconFilter },
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
     const [opened, { toggle }] = useDisclosure();
     const pathname = usePathname();
 
-    const links = [
-        { label: 'Dashboard', href: '/', icon: <IconLayoutDashboard size={20} stroke={1.5} /> },
-        { label: 'Providers', href: '/providers', icon: <IconServer size={20} stroke={1.5} /> },
-        { label: 'Users', href: '/users', icon: <IconUsers size={20} stroke={1.5} /> },
-        { label: 'Groups', href: '/groups', icon: <IconFolder size={20} stroke={1.5} /> },
-        { label: 'Rules', href: '/rules', icon: <IconFilter size={20} stroke={1.5} /> },
-    ];
-
     return (
         <AppShell
-            header={{ height: 60 }}
+            header={{ height: 64 }}
             navbar={{
-                width: 250,
+                width: 260,
                 breakpoint: 'sm',
                 collapsed: { mobile: !opened },
             }}
             padding="xl"
+            styles={{
+                header: {
+                    backgroundColor: 'var(--mantine-color-dark-7)',
+                    borderBottom: 'none',
+                },
+                navbar: {
+                    backgroundColor: 'var(--mantine-color-dark-7)',
+                    borderRight: 'none',
+                    paddingTop: '16px',
+                    paddingBottom: '16px',
+                    paddingLeft: '12px',
+                    paddingRight: '12px',
+                },
+                main: {
+                    backgroundColor: 'var(--mantine-color-dark-7)',
+                    minHeight: '100vh',
+                },
+            }}
         >
             <AppShell.Header>
                 <Group h="100%" px="md" justify="space-between">
-                    <Group>
-                        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-                        <Text 
-                            size="lg" 
-                            fw={700} 
-                            variant="gradient" 
-                            gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-                        >
-                            VPN Admin
-                        </Text>
+                    <Group gap="sm">
+                        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" color="var(--mantine-color-dark-0)" />
+                        <Group gap={12} align="center">
+                            <Box
+                                style={{
+                                    width: 32,
+                                    height: 32,
+                                    borderRadius: 10,
+                                    background: 'linear-gradient(135deg, #4f46e5 0%, #3730a3 100%)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexShrink: 0,
+                                    boxShadow: '0 4px 12px rgba(79, 70, 229, 0.4)',
+                                }}
+                            >
+                                <IconShield size={18} color="#fff" stroke={2.5} />
+                            </Box>
+                            <Text
+                                size="lg"
+                                fw={700}
+                                color="var(--mantine-color-white)"
+                                style={{ letterSpacing: '-0.02em' }}
+                            >
+                                Спиздить.всё
+                            </Text>
+                        </Group>
                     </Group>
                     <LogoutButton />
                 </Group>
             </AppShell.Header>
 
-            <AppShell.Navbar p="md">
-                {links.map((link) => (
-                    <NavLink
-                        key={link.href}
-                        component={Link}
-                        href={link.href}
-                        label={link.label}
-                        leftSection={link.icon}
-                        active={pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))}
-                    />
-                ))}
+            <AppShell.Navbar>
+                {links.map((link) => {
+                    const Icon = link.icon;
+                    const isActive = link.href === '/'
+                        ? pathname === '/'
+                        : pathname.startsWith(link.href);
+                    return (
+                        <NavLink
+                            key={link.href}
+                            component={Link}
+                            href={link.href}
+                            label={link.label}
+                            leftSection={<Icon size={20} stroke={isActive ? 2 : 1.5} />}
+                            active={isActive}
+                            onClick={() => opened && toggle()}
+                        />
+                    );
+                })}
             </AppShell.Navbar>
 
             <AppShell.Main>
-                <PageTransition>
+                <Box maw={1200} mx="auto">
                     {children}
-                </PageTransition>
+                </Box>
             </AppShell.Main>
         </AppShell>
     );

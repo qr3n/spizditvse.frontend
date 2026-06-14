@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/src/shared/api';
 import { GROUP_QUERY_KEY, SubscriptionGroupCreate, SubscriptionGroup } from '@/src/entities/group';
+import toast from 'react-hot-toast';
 
 export const useUpdateGroup = () => {
     const queryClient = useQueryClient();
@@ -12,6 +13,10 @@ export const useUpdateGroup = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: GROUP_QUERY_KEY });
+            toast.success('Group updated successfully');
+        },
+        onError: () => {
+            toast.error('Failed to update group');
         },
     });
 };

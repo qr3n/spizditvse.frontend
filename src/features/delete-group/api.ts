@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/src/shared/api';
 import { GROUP_QUERY_KEY } from '@/src/entities/group';
+import toast from 'react-hot-toast';
 
 export const useDeleteGroup = () => {
     const queryClient = useQueryClient();
@@ -11,6 +12,10 @@ export const useDeleteGroup = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: GROUP_QUERY_KEY });
+            toast.success('Group deleted successfully');
+        },
+        onError: () => {
+            toast.error('Failed to delete group');
         },
     });
 };

@@ -8,14 +8,12 @@ export function RefreshProviderButton({ subId }: { subId: string }) {
     const { mutate, isPending } = useRefreshProvider();
 
     return (
-        <Tooltip label="Manual Refresh" withArrow position="top">
-            <ActionIcon 
-                color="blue" 
-                variant="light" 
+        <Tooltip label="Refresh nodes" withArrow position="top">
+            <ActionIcon
                 onClick={() => mutate(subId)}
                 loading={isPending}
             >
-                <IconRefresh size={16} />
+                <IconRefresh size={18} stroke={1.5} />
             </ActionIcon>
         </Tooltip>
     );

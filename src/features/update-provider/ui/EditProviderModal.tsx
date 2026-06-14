@@ -1,10 +1,11 @@
 'use client';
 
-import { TextInput, Button, Group, Box, Checkbox, Stack, Select, Modal } from '@mantine/core';
+import { TextInput, Button, Group, Box, Checkbox, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useUpdateProvider } from '../api';
 import { Provider } from '@/src/entities/provider';
 import { useGroups } from '@/src/entities/group';
+import { Drawer, CustomSelect } from '@/src/shared/ui';
 
 export function EditProviderModal({ provider, opened, onClose }: { provider: Provider, opened: boolean, onClose: () => void }) {
     const { mutate, isPending } = useUpdateProvider();
@@ -34,7 +35,7 @@ export function EditProviderModal({ provider, opened, onClose }: { provider: Pro
     const groupOptions = groups?.map((g) => ({ value: g.id, label: g.name })) || [];
 
     return (
-        <Modal opened={opened} onClose={onClose} title="Edit Provider">
+        <Drawer opened={opened} onClose={onClose} title="Edit Provider">
             <Box mx="auto">
                 <form onSubmit={form.onSubmit(handleSubmit)}>
                     <Stack>
@@ -48,23 +49,39 @@ export function EditProviderModal({ provider, opened, onClose }: { provider: Pro
                             label="Subscription URL"
                             {...form.getInputProps('url')}
                         />
-                        <Select
+                        <CustomSelect
                             label="Subscription Group"
-                            placeholder="Select a group (optional)"
+                            placeholder="Select a group"
                             data={groupOptions}
                             clearable
-                            {...form.getInputProps('group_id')}
+                            value={form.values.group_id}
+                            onChange={(val) => form.setFieldValue('group_id', val)}
+                            error={form.errors.group_id}
                         />
                         <Checkbox
                             label="Active Status"
                             {...form.getInputProps('is_active', { type: 'checkbox' })}
                         />
                         <Group justify="flex-end" mt="md">
-                            <Button type="submit" loading={isPending}>Save</Button>
+                            <Button 
+                                type="submit" 
+                                loading={isPending}
+                                fullWidth
+                                style={{ maxWidth: 'fit-content' }}
+                                styles={{
+                                    root: {
+                                        '@media (max-width: 48em)': {
+                                            maxWidth: '100%',
+                                        }
+                                    }
+                                } as any}
+                            >
+                                Save
+                            </Button>
                         </Group>
                     </Stack>
                 </form>
             </Box>
-        </Modal>
+        </Drawer>
     );
 }
